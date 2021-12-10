@@ -1,44 +1,79 @@
-import aocd
+import aoc_5 as target
 
 
-def parse(puzzle_input):
-    """Parse input"""
-    lines = puzzle_input.splitlines()
-    return None
-
-def part1(data):
-    return 0
-
-def part2(data):
-    return 0
-
-def solve(day=5):
-
-    """Solve the puzzle for the given input"""
-
-    data = aocd.get_data(day=day)
-    #data = example_data
+def test_parse():
+    assert target.parse(example_data) == example_lines
 
 
-    print('part one:', part1(parse(data)))
-    print('part two:', part2(parse(data)))
+def test_turn_to_grid():
+    assert target.turn_to_grid(target.omit_diagnal(example_lines)) == example_grid_1
+    assert target.turn_to_grid(example_lines) == example_grid_2
 
-example_data = """7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
 
-22 13 17 11  0
- 8  2 23  4 24
-21  9 14 16  7
- 6 10  3 18  5
- 1 12 20 15 19
+def test_count_dangerous():
+    assert target.count_dangerous(example_grid_1) == 5
+    assert target.count_dangerous(example_grid_2) == 12
 
- 3 15  0  2 22
- 9 18 13 17  5
-19  8  7 25 23
-20 11 10 24  4
-14 21 16 12  6
 
-14 21 17 24  4
-10 16 15  9 19
-18  8 23 26 20
-22 11 13  6  5
- 2  0 12  3  7"""
+def test_part1():
+    assert target.part1(example_data) == 5
+
+def test_part2():
+    assert target.part2(example_data) == 12
+
+example_data = """0,9 -> 5,9
+8,0 -> 0,8
+9,4 -> 3,4
+2,2 -> 2,1
+7,0 -> 7,4
+6,4 -> 2,0
+0,9 -> 2,9
+3,4 -> 1,4
+0,0 -> 8,8
+5,5 -> 8,2"""
+
+example_lines = [
+    [(0, 9), (5, 9)],
+    [(8, 0), (0, 8)],
+    [(9, 4), (3, 4)],
+    [(2, 2), (2, 1)],
+    [(7, 0), (7, 4)],
+    [(6, 4), (2, 0)],
+    [(0, 9), (2, 9)],
+    [(3, 4), (1, 4)],
+    [(0, 0), (8, 8)],
+    [(5, 5), (8, 2)],
+]
+
+example_grid_1_string = """.......1..
+..1....1..
+..1....1..
+.......1..
+.112111211
+..........
+..........
+..........
+..........
+222111...."""
+
+example_grid_2_string = """1.1....11.
+.111...2..
+..2.1.111.
+...1.2.2..
+.112313211
+...1.2....
+..1...1...
+.1.....1..
+1.......1.
+222111...."""
+
+
+def turn_to_int(c):
+    if c == '.':
+        return 0
+    else:
+        return int(c)
+
+
+example_grid_1 = [[turn_to_int(c) for c in line] for line in example_grid_1_string.splitlines()]
+example_grid_2 = [[turn_to_int(c) for c in line] for line in example_grid_2_string.splitlines()]
